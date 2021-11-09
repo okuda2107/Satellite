@@ -196,6 +196,17 @@ void Game::RemoveSprite(class SpriteComponent* sprite)
 	mSprites.erase(iter);
 }
 
+void Game::AddGravity(class GravityComponent* gravity)
+{
+	mGravity.push_back(gravity);
+}
+
+void Game::RemoveGravity(class GravityComponent* gravity)
+{
+	auto iter = std::find(mGravity.begin(), mGravity.end(), gravity);
+	mGravity.erase(iter);
+}
+
 SDL_Texture* Game::GetTexture(const std::string& filename)
 {
 	SDL_Texture* tex = nullptr;

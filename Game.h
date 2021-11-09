@@ -19,6 +19,9 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
+	void AddGravity(class GravityComponent* gravity);
+	void RemoveGravity(class GravityComponent* gravity);
+
 	void LoadData();
 	void UnLoadData();
 
@@ -44,4 +47,6 @@ private:
 
 	std::unordered_map<std::string, SDL_Texture*> mTextures;
 	std::vector<class SpriteComponent*> mSprites;
+
+	std::vector<class GravityComponent*> mGravity;
 };
