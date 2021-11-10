@@ -2,7 +2,7 @@
 #include "Actor.h"
 #include "Game.h"
 
-GravityComponent::GravityComponent(class Actor* owner, Tag tag, int updateOrder = 10) : Component(owner, updateOrder), mTag(tag)
+GravityComponent::GravityComponent(class Actor* owner, int updateOrder = 10) : Component(owner, updateOrder)
 {
 	mOwner->GetGame()->AddGravity(this);
 }
@@ -14,18 +14,27 @@ GravityComponent::~GravityComponent()
 
 void GravityComponent::Update(float deltatime)
 {
-	if (!Math::NearZero(mSpeed))
+	if (!Math::NearZeroVector(mForceDirect))
 	{
-		mForward = ForwardCalculate();
+		mForceDirect = ForceDirectCalculate();
 
 		Vector2 pos = mOwner->GetPosition();
-		pos += mForward * mSpeed * deltatime;
+		pos += (Verticalize(mForceDirect) * mSpeed + mForceDirect) * deltatime;
 
 		mOwner->SetPosition(pos);
 	}
 }
 
-Vector2 GravityComponent::ForwardCalculate()
+Vector2 GravityComponent::ForceDirectCalculate()
 {
+	for (auto object : mOwner->GetGame()->mGravity)
+	{
+		float temp;
 
+		Vector2 distance = object->GetOwner()->GetPosition() - mOwner->GetPosition();
+
+		temp = (gravity * object->GetMass() * mMass) / distance.LengthSquared();
+
+		mForceDirect += Normalize(distance) * temp;
+	}
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 
+class Vector2;
+
 namespace Math {
 
 	static const float Pi = 3.1415926535f;
@@ -29,6 +31,18 @@ namespace Math {
 		}
 	}
 
+	inline bool NearZeroVector(const Vector2& vec, float epsilon = 0.001f)
+	{
+		if (fabs(vec.x) <= epsilon && fabs(vec.y) <= epsilon)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	inline float Cos(float rot)
 	{
 		return std::cos(rot);
@@ -39,6 +53,10 @@ namespace Math {
 		return std::sin(rot);
 	}
 
+	inline float Atan(Vector2& vec)
+	{
+		return std::atan2(vec.x, vec.y);
+	}
 }
 
 	class Vector2
@@ -117,7 +135,7 @@ namespace Math {
 			}
 		}
 
-		static friend const Vector2 Normalize(Vector2 vec)
+		static friend const Vector2 Normalize(const Vector2& vec)
 		{
 			if (vec.LengthSquared() != 0)
 			{
@@ -129,6 +147,20 @@ namespace Math {
 			else
 			{
 				std::cout << "Can't Normalize" << std::endl;
+				return vec;
+			}
+		}
+
+		static friend const Vector2 Verticalize(const Vector2& vec)
+		{
+			if (vec.LengthSquared() != 0)
+			{
+				float temp = Math::Atan(vec) + Math::Pi / 2;
+				return Vector2(Math::Cos(temp), -Math::Sin(temp));
+			}
+			else
+			{
+				std::cout << "Can't Verticalize" << std::endl;
 				return vec;
 			}
 		}

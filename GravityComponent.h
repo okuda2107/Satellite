@@ -10,18 +10,19 @@ class GravityComponent : public Component
 		Player,
 		Object
 	};
-	GravityComponent(class Actor* owner, Tag tag, int updateOrder = 10);
+	GravityComponent(class Actor* owner, int updateOrder = 10);
 	~GravityComponent();
 
 	void Update(float deltatime);
 
+	float GetMass() { return mMass; }
 private:	
-	Vector2 ForwardCalculate();	
-	void ForceDirectCalculate();
+	Vector2 ForceDirectCalculate();
 
 	float mSpeed;
 	Vector2 mForceDirect;//ˆø—Í‚Ì•ûŒü
-	Vector2 mForward;//‰Á‘¬Œ¸‘¬‚·‚é•ûŒü(ˆø—Í‚©‚ç‚Ý‚Ä90“x)
 	float mMass;
 	Tag mTag;
+
+	const static float gravity;
 };

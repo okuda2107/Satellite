@@ -13,6 +13,8 @@ public:
 	virtual void Update(float deltatime);
 
 	const int GetUpdateOrder() { return mUpdateOrder; }
+
+	class Actor* GetOwner() { return mOwner; }
 protected:
 	class Actor* mOwner;
 	int mUpdateOrder;
