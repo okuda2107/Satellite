@@ -1,20 +1,16 @@
 #pragma once
-#include "MoveComponent.h"
+#include "GravityComponent.h"
 #include <cstdint>
 
-class InputComponent : public MoveComponent
+class InputComponent : public GravityComponent
 {
 public:
 	InputComponent(class Actor* owner);
 	void ProcessInput(const uint8_t* keystate);
 
 private:
-	float mMaxForwardSpeed;
-	float mMaxAngularSpeed;
+	float mAccele;
 
-	int mForwardKey;
-	int mBackKey;
-
-	int mClockwiseKey;
-	int mCounterClockwiseKey;
+	int mAcceleKey;
+	int mDeceleKey;
 };

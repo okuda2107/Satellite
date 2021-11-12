@@ -5,6 +5,7 @@
 //万有引力の計算、挙動実装クラス
 class GravityComponent : public Component
 {
+public:
 	enum Tag
 	{
 		Player,
@@ -15,7 +16,10 @@ class GravityComponent : public Component
 
 	void Update(float deltatime);
 
+	void UpdateSpeed(float accele) { mSpeed += accele; }
+
 	float GetMass() { return mMass; }
+	Tag GetTag() { return mTag; }
 private:	
 	Vector2 ForceDirectCalculate();
 

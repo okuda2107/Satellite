@@ -29,12 +29,15 @@ Vector2 GravityComponent::ForceDirectCalculate()
 {
 	for (auto object : mOwner->GetGame()->mGravity)
 	{
-		float temp;
+		if (mTag != object->GetTag())
+		{
+			float temp;
 
-		Vector2 distance = object->GetOwner()->GetPosition() - mOwner->GetPosition();
+			Vector2 distance = object->GetOwner()->GetPosition() - mOwner->GetPosition();
 
-		temp = (gravity * object->GetMass() * mMass) / distance.LengthSquared();
+			temp = (gravity * object->GetMass() * mMass) / distance.LengthSquared();
 
-		mForceDirect += Normalize(distance) * temp;
+			mForceDirect += Normalize(distance) * temp;
+		}
 	}
 }
