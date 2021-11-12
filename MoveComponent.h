@@ -8,7 +8,8 @@ public:
 	MoveComponent(class Actor* owner, int updateOrder = 10);
 	void Update(float deltatime);
 
-	void SetForwardSpeed(float forwSpeed) { mForwardSpeed = forwSpeed; }
+	void SetSpeed(float speed) { mSpeed = speed; }
 private:
-	float mForwardSpeed;
+	float mSpeed;
+	Vector2 mForward;
 };
