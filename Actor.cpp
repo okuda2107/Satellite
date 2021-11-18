@@ -3,7 +3,7 @@
 #include "Component.h"
 #include <algorithm>
 
-Actor::Actor(class Game* game) : mGame(game), mPosition(0, 0), mScale(1.0f), mRotation(0.0f)
+Actor::Actor(class Game* game) : mGame(game), mPosition(0, 0), mScale(1.0f)
 {
 	mGame->AddActor(this);
 }

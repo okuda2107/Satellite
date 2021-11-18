@@ -19,7 +19,7 @@ void GravityComponent::Update(float deltatime)
 		mForceDirect = ForceDirectCalculate();
 
 		Vector2 pos = mOwner->GetPosition();
-		pos += (Verticalize(mForceDirect) * mSpeed + mForceDirect) * deltatime;
+		pos += (Verticalize(Normalize(mForceDirect)) * mSpeed + mForceDirect) * deltatime;
 
 		mOwner->SetPosition(pos);
 	}

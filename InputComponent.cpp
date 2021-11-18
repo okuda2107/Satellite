@@ -9,4 +9,8 @@ void InputComponent::ProcessInput(const uint8_t* keystate)
 	{
 		UpdateSpeed(mAccele);
 	}
+	if (keystate[mDeceleKey])
+	{
+		UpdateSpeed(-mAccele);
+	}
 }
