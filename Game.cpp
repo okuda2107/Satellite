@@ -3,8 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include "SpriteComponent.h"
-#include "Planet.h"
-#include "Satellite.h"
+#include "CircleComponent.h"
 
 Game::Game() : mWindow(nullptr), mRenderer(nullptr), mIsRunning(true), mTicksCount(0), mUpdatingActors(false)
 {}
@@ -33,7 +32,7 @@ bool Game::Initialize()
 		-1,
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
 	);
-	
+
 	if (IMG_Init(IMG_INIT_PNG) == 0)
 	{
 		SDL_Log("SDL_imageの初期化に失敗:%s", SDL_GetError());
@@ -158,7 +157,7 @@ void Game::UpdateActors(float deltatime)
 		actor->Update(deltatime);
 	}
 	mUpdatingActors = false;
-	
+
 	for (auto pending : mPendingActors)
 	{
 		mActors.emplace_back(pending);
@@ -178,7 +177,24 @@ void Game::UpdateActors(float deltatime)
 		delete actor;
 	}
 }
-
+void Game::GameEvent() {
+	for (int i = 0;i == mColider.size() - 1;i++) {
+		for (int j = 1;j == mColider.size();j++) {
+			CircleComponent& a = *mColider[i];
+			CircleComponent& b = *mColider[j];
+			if (Intersect(a, b)) {
+				if (a.GetRadius() < b.GetRadius()) {
+					b.SetRadius(b.GetRadius() + a.GetRadius());
+					delete& a;
+				}
+				else {
+					a.SetRadius(a.GetRadius() + b.GetRadius());
+					delete& b;
+				}
+			}
+		}
+	}
+}
 void Game::AddSprite(class SpriteComponent* sprite)
 {
 	auto iter = mSprites.begin();
@@ -196,6 +212,28 @@ void Game::RemoveSprite(class SpriteComponent* sprite)
 {
 	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
 	mSprites.erase(iter);
+}
+
+void Game::AddGravity(class GravityComponent* gravity)
+{
+	mGravity.push_back(gravity);
+}
+
+void Game::RemoveGravity(class GravityComponent* gravity)
+{
+	auto iter = std::find(mGravity.begin(), mGravity.end(), gravity);
+	mGravity.erase(iter);
+}
+
+void Game::AddColider(class CircleComponent* colision)
+{
+	mColider.push_back(colision);
+}
+
+void Game::RemoveColider(CircleComponent* colision)
+{
+	auto iter_collison = std::find(mColider.begin(), mColider.end(), colision);
+	mColider.erase(iter_collison);
 }
 
 SDL_Texture* Game::GetTexture(const std::string& filename)
@@ -228,12 +266,7 @@ SDL_Texture* Game::GetTexture(const std::string& filename)
 
 void Game::LoadData()
 {
-	Planet* planet = new Planet(this);
-	Vector2 vec(100, 100);
-	planet->SetPosition(vec);
-	Satellite* satellite = new Satellite(this);
-	Vector2&& vec2 = Vector2(150, 150);
-	satellite->SetPosition(vec2);
+
 }
 
 void Game::UnLoadData()
@@ -253,3 +286,4 @@ void Game::UnLoadData()
 	mTextures.clear();
 	//erase()はメモリの解放はしないが、メモリの内容をnullにする
 }
+

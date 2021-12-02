@@ -19,14 +19,23 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
+	void AddGravity(class GravityComponent* gravity);
+	void RemoveGravity(class GravityComponent* gravity);
+
+	void AddColider(class CircleComponent* colision);
+	void RemoveColider(class CircleComponent* colision);
+
+	std::vector<class GravityComponent*> mGravity;
+	std::vector<class CircleComponent*>mColider;
+
+	void GameEvent();
+
 	void LoadData();
 	void UnLoadData();
 
 	SDL_Renderer* GetRenderer() { return mRenderer; }
 
 	SDL_Texture* GetTexture(const std::string& filename);
-
-	std::vector<class GravityComponent*> mGravity;
 private:
 	void ProcessInput();
 	void UpdateGame();
