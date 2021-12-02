@@ -6,5 +6,6 @@ class Planet : public Actor
 public:
 	Planet(class Game* game);
 
-	
+private:
+
 };

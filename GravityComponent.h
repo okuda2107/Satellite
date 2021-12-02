@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Math.h"
+#include <vector>
 
 //万有引力の計算、挙動実装クラス
 class GravityComponent : public Component
@@ -18,15 +19,19 @@ public:
 
 	void UpdateSpeed(float accele) { mSpeed += accele; }
 
+	void SetTag(Tag tag) { mTag = tag; }
+	void SetMass(float mass) { mMass = mass; }
+	void SetSpeed(float speed) { mSpeed = speed; }
+
 	float GetMass() { return mMass; }
 	Tag GetTag() { return mTag; }
 private:	
-	Vector2 ForceDirectCalculate();
+	void ForceDirectCalculate();
 
 	float mSpeed;
 	Vector2 mForceDirect;//引力の方向
 	float mMass;
 	Tag mTag;
 
-	const static float gravity;
+	static constexpr float gravity = 9.80665f;
 };

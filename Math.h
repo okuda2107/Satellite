@@ -31,17 +31,7 @@ namespace Math {
 		}
 	}
 
-	inline bool NearZeroVector(const Vector2& vec, float epsilon = 0.001f)
-	{
-		if (fabs(vec.x) <= epsilon && fabs(vec.y) <= epsilon)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	bool NearZeroVector(const Vector2& vec, float epsilon = 0.001f);
 
 	inline float Cos(float rot)
 	{
@@ -53,10 +43,7 @@ namespace Math {
 		return std::sin(rot);
 	}
 
-	inline float Atan(Vector2& vec)
-	{
-		return std::atan2(vec.x, vec.y);
-	}
+	float Atan(const Vector2& vec);
 }
 
 	class Vector2
@@ -116,13 +103,13 @@ namespace Math {
 			return x + y;
 		}
 
-		const float Length()
+		float Length() const
 		{
 			float temp = this->LengthSquared();
 			return sqrt(temp);
 		}
 
-		const void Normalize()
+		void Normalize()
 		{
 			if (this->LengthSquared() != 0)
 			{

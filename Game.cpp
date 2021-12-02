@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 #include "SpriteComponent.h"
+#include "Planet.h"
+#include "Satellite.h"
 
 Game::Game() : mWindow(nullptr), mRenderer(nullptr), mIsRunning(true), mTicksCount(0), mUpdatingActors(false)
 {}
@@ -196,17 +198,6 @@ void Game::RemoveSprite(class SpriteComponent* sprite)
 	mSprites.erase(iter);
 }
 
-void Game::AddGravity(class GravityComponent* gravity)
-{
-	mGravity.push_back(gravity);
-}
-
-void Game::RemoveGravity(class GravityComponent* gravity)
-{
-	auto iter = std::find(mGravity.begin(), mGravity.end(), gravity);
-	mGravity.erase(iter);
-}
-
 SDL_Texture* Game::GetTexture(const std::string& filename)
 {
 	SDL_Texture* tex = nullptr;
@@ -237,7 +228,12 @@ SDL_Texture* Game::GetTexture(const std::string& filename)
 
 void Game::LoadData()
 {
-	
+	Planet* planet = new Planet(this);
+	Vector2 vec(100, 100);
+	planet->SetPosition(vec);
+	Satellite* satellite = new Satellite(this);
+	Vector2&& vec2 = Vector2(150, 150);
+	satellite->SetPosition(vec2);
 }
 
 void Game::UnLoadData()

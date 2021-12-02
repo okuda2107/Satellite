@@ -2,21 +2,22 @@
 #include "Actor.h"
 #include "Game.h"
 
-GravityComponent::GravityComponent(class Actor* owner, int updateOrder = 10) : Component(owner, updateOrder)
+GravityComponent::GravityComponent(class Actor* owner, int updateOrder) : Component(owner, updateOrder), mSpeed(0.0f), mMass(0.0f)
 {
-	mOwner->GetGame()->AddGravity(this);
+	mOwner->GetGame()->mGravity.push_back(this);
 }
 
 GravityComponent::~GravityComponent()
 {
-	mOwner->GetGame()->RemoveGravity(this);
+	auto iter = std::find(mOwner->GetGame()->mGravity.begin(), mOwner->GetGame()->mGravity.end(), this);
+	mOwner->GetGame()->mGravity.erase(iter);
 }
 
 void GravityComponent::Update(float deltatime)
 {
 	if (!Math::NearZeroVector(mForceDirect))
 	{
-		mForceDirect = ForceDirectCalculate();
+		ForceDirectCalculate();
 
 		Vector2 pos = mOwner->GetPosition();
 		pos += (Verticalize(Normalize(mForceDirect)) * mSpeed + mForceDirect) * deltatime;
@@ -25,7 +26,7 @@ void GravityComponent::Update(float deltatime)
 	}
 }
 
-Vector2 GravityComponent::ForceDirectCalculate()
+void GravityComponent::ForceDirectCalculate()
 {
 	for (auto object : mOwner->GetGame()->mGravity)
 	{
