@@ -5,7 +5,9 @@ class Planet : public Actor
 {
 public:
 	Planet(class Game* game);
+	~Planet();
 
+	void SetFlag(bool flag) { mTargetFrag = flag; }
 private:
-
+	bool mTargetFrag;//ターゲットフラグ
 };

@@ -92,10 +92,10 @@ void Game::UpdateGame()
 		deltatime = 0.05f;
 	}
 	mTicksCount = SDL_GetTicks();
+	
+	GameEvent();
 
 	UpdateActors(deltatime);
-
-	GameEvent();
 }
 
 void Game::GenerateOutput()
@@ -159,7 +159,10 @@ void Game::UpdateActors(float deltatime)
 	mUpdatingActors = true;
 	for (auto actor : mActors)
 	{
-		actor->Update(deltatime);
+		if (actor->GetState() != Actor::EDead)
+		{
+			actor->Update(deltatime);
+		}
 	}
 	mUpdatingActors = false;
 
@@ -187,18 +190,21 @@ void Game::GameEvent()
 {
 
 
-	for (int i = 0;i == mColider.size() - 1;i++) {
-		for (int j = 1;j == mColider.size();j++) {
-			CircleComponent& a = *mColider[i];
-			CircleComponent& b = *mColider[j];
-			if (Intersect(a, b)) {
-				if (a.GetRadius() < b.GetRadius()) {
-					b.SetRadius(b.GetRadius() + a.GetRadius());
-					delete& a;
+	for (size_t i = 0;i < mColider.size() - 1;i++) 
+	{
+		for (size_t j = i + 1;j < mColider.size();j++)
+		{
+			if (Intersect(*mColider[i], *mColider[j]))
+			{
+				if (mColider[i]->GetRadius() < mColider[j]->GetRadius()) 
+				{
+					*mColider[j] += *mColider[i];
+					mColider[i]->GetOwner()->SetState(Actor::EDead);
 				}
-				else {
-					a.SetRadius(a.GetRadius() + b.GetRadius());
-					delete& b;
+				else 
+				{
+					*mColider[i] += *mColider[j];
+					mColider[j]->GetOwner()->SetState(Actor::EDead);
 				}
 			}
 		}
@@ -207,10 +213,11 @@ void Game::GameEvent()
 
 void Game::AddSprite(class SpriteComponent* sprite)
 {
+	int myDrawOrder = sprite->GetDrawOrder();
 	auto iter = mSprites.begin();
 	for (; iter != mSprites.end(); ++iter)
 	{
-		if ((*iter)->GetDrawOrder() > sprite->GetDrawOrder())
+		if ((*iter)->GetDrawOrder() > myDrawOrder)
 		{
 			break;
 		}
@@ -276,13 +283,16 @@ SDL_Texture* Game::GetTexture(const std::string& filename)
 
 void Game::LoadData()
 {
-	StartActor* sa = new StartActor(this);
+	for (int i = 0; i < 10; i++)
+	{
+		Planet* pl = new Planet(this);
+	}
+	
+	Planet* plmax = new Planet(this);
+	plmax->SetFlag(true);
+	
 	mSatellite = new Satellite(this);
-	Vector2 vec(0, 100);
-	mSatellite->SetPosition(vec);
-	mSatellite->SetScale(0.1f);
-	Planet* pl = new Planet(this);
-	pl->SetScale(0.5f);
+
 }
 
 void Game::UnLoadData()

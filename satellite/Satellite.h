@@ -5,6 +5,7 @@ class Satellite : public Actor
 {
 public:
 	Satellite(class Game* game);
+	~Satellite();
 
 	void Update(float deltatime);//worldsize‚Í‚±‚±‚Å”»’è
 

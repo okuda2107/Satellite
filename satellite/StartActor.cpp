@@ -1,13 +1,15 @@
 #include "StartActor.h"
 #include "SDL.h"
 #include "Game.h"
-#include "SpriteComponent.h"
-
+#include "ScreenComponent.h"
+//Satellite‚ªŽ€‚ñ‚¾‚ç¶¬
 StartActor::StartActor(class Game* game) : Actor(game)
 {
 	//ƒ^ƒCƒgƒ‹‚Ì•¶Žš‚ð•\Ž¦
 	//”wŒi‚à‚±‚±‚Å¶¬
-
+	ScreenComponent* sc = new ScreenComponent(this, 200);
+	SDL_Texture* tex = GetGame()->GetTexture("Assets/face.png");
+	sc->SetTexture(tex);
 }
 
 void StartActor::ActorInput(const uint8_t* keystate)

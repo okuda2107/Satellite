@@ -63,10 +63,9 @@ namespace Math {
 			return temp;
 		}
 
-		static const friend Vector2 operator- (const Vector2& a, const Vector2& b)
+		friend Vector2 operator- (const Vector2& a, const Vector2& b)
 		{
-			Vector2 temp(a.x - b.x, a.y - b.y);
-			return temp;
+			return Vector2(a.x - b.x, a.y - b.y);
 		}
 
 		static const friend Vector2 operator* (const Vector2 & vec, float scalor)//
@@ -94,6 +93,21 @@ namespace Math {
 			this->x += vec.x;
 			this->y += vec.y;
 			return *this; //代入演算子のオーバーロードはそのクラスの実体を返す必要があるため * を付ける, thisは右辺値？
+		}
+
+		Vector2& operator *= (const float scalor)
+		{
+			this->x *= scalor;
+			this->y *= scalor;
+			return *this;
+		}
+
+		friend bool operator == (const Vector2& a, const Vector2& b)
+		{
+			if (a.x == b.x && a.y == b.y)
+				return true;
+			else
+				return false;
 		}
 
 		float LengthSquared() const
@@ -138,12 +152,13 @@ namespace Math {
 			}
 		}
 
-		static friend const Vector2 Verticalize(Vector2& vec)
+		static friend const Vector2 Verticalize(const Vector2& vec)
 		{
 			if (vec.LengthSquared() != 0)
 			{
+				float len = vec.Length();
 				float temp = Math::Atan(vec);
-				return Vector2(Math::Sin(temp + Math::Pi / 2), Math::Cos(temp + Math::Pi / 2));
+				return Vector2(Math::Sin(temp + Math::Pi / 2) * len, Math::Cos(temp + Math::Pi / 2) * len);//
 			}
 			else
 			{

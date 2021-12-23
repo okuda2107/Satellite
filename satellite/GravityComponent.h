@@ -22,16 +22,26 @@ public:
 	void SetTag(Tag tag) { mTag = tag; }
 	void SetMass(float mass) { mMass = mass; }
 	void SetSpeed(float speed) { mSpeed = speed; }
+	void SetKey(int key) { mKey = key; }
+	void SetForward() 
+	{
+		Vector2 Direct = ForceDirectCalculate();
+		Vector2 vec = Verticalize(Direct);
+		mForward = Normalize(vec);
+	}
 
+	Vector2 ForceDirectCalculate();
+	
 	float GetMass() { return mMass; }
 	Tag GetTag() { return mTag; }
-private:	
-	void ForceDirectCalculate();
-
+protected:	
 	float mSpeed;
 	Vector2 mForceDirect;//ˆø—Í‚Ì•ûŒü
+	Vector2 mForward;//i‚Ş•ûŒü
 	float mMass;
 	Tag mTag;
+	int mKey;
+	float mTime;
 
-	static constexpr float gravity = 9.80665f;
+	static constexpr float gravity = 98.0665f;
 };

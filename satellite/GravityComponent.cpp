@@ -2,9 +2,10 @@
 #include "Actor.h"
 #include "Game.h"
 
-GravityComponent::GravityComponent(class Actor* owner, int updateOrder) : Component(owner, updateOrder), mSpeed(0.0f), mMass(0.0f)
+GravityComponent::GravityComponent(class Actor* owner, int updateOrder) : Component(owner, updateOrder), mSpeed(0.0f), mMass(0.0f), mKey(0), mTime(0.0f)
 {
 	mOwner->GetGame()->mGravity.push_back(this);
+	mOwner->mActorGravity = this;
 }
 
 GravityComponent::~GravityComponent()
@@ -15,19 +16,19 @@ GravityComponent::~GravityComponent()
 
 void GravityComponent::Update(float deltatime)
 {
-	ForceDirectCalculate();
+	Vector2 mForceDirect = ForceDirectCalculate();
 	if (!Math::NearZeroVector(mForceDirect))
-	{	
+	{
 		Vector2 pos = mOwner->GetPosition();
-		pos += (Normalize(Verticalize(mForceDirect)) * mSpeed + mForceDirect) * deltatime;
+		pos += mForceDirect * deltatime;
 
 		mOwner->SetPosition(pos);
 	}
 }
 
-void GravityComponent::ForceDirectCalculate()
+Vector2 GravityComponent::ForceDirectCalculate()
 {
-	mForceDirect = Vector2(0.0f, 0.0f);
+	Vector2 ForceDirect;
 	for (auto object : mOwner->GetGame()->mGravity)
 	{
 		if (mTag != object->GetTag())
@@ -36,9 +37,10 @@ void GravityComponent::ForceDirectCalculate()
 
 			Vector2 distance = object->GetOwner()->GetPosition() - mOwner->GetPosition();
 
-			temp = (gravity * object->GetMass() * mMass) / distance.LengthSquared();
+			temp = (gravity * object->GetMass() * mMass) / distance.Length();
 
-			mForceDirect += Normalize(distance) * temp;
+			ForceDirect += Normalize(distance) * temp;
 		}
 	}
+	return ForceDirect;
 }

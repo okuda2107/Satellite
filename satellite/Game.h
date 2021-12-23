@@ -38,6 +38,7 @@ public:
 	std::vector<class Actor*>& GetActors() { return mActors; }
 	class Satellite* GetSatellite() { return mSatellite; }
 	Vector2* GetScreenSize() { return &mScreenSize; }
+	Vector2* GetWorldSize() { return &mWorldSize; }
 
 	SDL_Texture* GetTexture(const std::string& filename);
 private:

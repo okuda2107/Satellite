@@ -17,4 +17,6 @@ float Random::GetFloatRange(float min, float max)
 	return dist(sGenerator);//
 }
 
-std::mt19937 Random::sGenerator;//
+std::random_device rnd;
+
+std::mt19937 Random::sGenerator(rnd());//
