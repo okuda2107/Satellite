@@ -9,6 +9,7 @@
 
 Planet::Planet(class Game* game) : Actor(game), mTargetFrag(false)
 {
+	//aiueo
 	CircleComponent* cc = new CircleComponent(this);
 	GravityComponent* grac = new GravityComponent(this);
 	grac->SetTag(grac->Object);

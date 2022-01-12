@@ -9,6 +9,7 @@
 
 Satellite::Satellite(class Game* game) : Actor(game)
 {
+	//aiueo
 	InputComponent* inpc = new InputComponent(this);
 	inpc->SetTag(inpc->Player);
 	inpc->SetMass(1.0f);
