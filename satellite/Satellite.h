@@ -7,7 +7,7 @@ public:
 	Satellite(class Game* game);
 	~Satellite();
 
-	void Update(float deltatime);//worldsize‚Í‚±‚±‚Å”»’è
+	void Update(float deltatime);//worldsizeï¿½Í‚ï¿½ï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½
 
 private:
 	Vector2 mFirstPos;

@@ -1,7 +1,7 @@
 #pragma once
 #include "Actor.h"
 
-//ƒQ[ƒ€ƒNƒŠƒA‚Ì”»’èƒRƒ“ƒ|[ƒlƒ“ƒg
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½Ì”ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½g
 class GameJudgeActor : public Actor
 {
 public:

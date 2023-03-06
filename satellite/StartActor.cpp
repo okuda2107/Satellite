@@ -2,11 +2,11 @@
 #include "SDL.h"
 #include "Game.h"
 #include "ScreenComponent.h"
-//Satellite‚ª€‚ñ‚¾‚ç¶¬
+//Satelliteï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾‚ç¶ï¿½ï¿½
 StartActor::StartActor(class Game* game) : Actor(game)
 {
-	//ƒ^ƒCƒgƒ‹‚Ì•¶š‚ğ•\¦
-	//”wŒi‚à‚±‚±‚Å¶¬
+	//ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+	//ï¿½wï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½
 	ScreenComponent* sc = new ScreenComponent(this, 200);
 	SDL_Texture* tex = GetGame()->GetTexture("Assets/face.png");
 	sc->SetTexture(tex);
@@ -16,7 +16,7 @@ void StartActor::ActorInput(const uint8_t* keystate)
 {
 	if (keystate[SDL_SCANCODE_SPACE])
 	{
-		//‚±‚±‚Åƒf[ƒ^‚ğƒ[ƒh‚·‚é
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Åƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½
 
 		delete this;
 	}

@@ -9,12 +9,12 @@ public:
 	SpriteComponent(class Actor* owner, int drawOrder);
 	~SpriteComponent();
 
-	virtual void Draw(SDL_Renderer* renderer);
-	virtual void SetTexture(SDL_Texture* tex);
+	virtual void Draw(class Shader* renderer);
+	virtual void SetTexture(class Texture* tex);
 
 	const int GetDrawOrder() { return mDrawOrder; }
 protected:
-	SDL_Texture* mTexture;
+	class Texture* mTexture;
 	int mDrawOrder;
 	int mTexHeight;
 	int mTexWidth;

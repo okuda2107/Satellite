@@ -1,41 +1,47 @@
 #include "SpriteComponent.h"
-#include "Satellite.h"
+#include "Actor.h"
 #include "Game.h"
 #include "Math.h"
+#include "Renderer.h"
+#include "Shader.h"
+#include "Texture.h"
 
 SpriteComponent::SpriteComponent(class Actor* owner, int drawOrder) : Component(owner), mDrawOrder(drawOrder), mTexHeight(0), mTexWidth(0), mTexture(nullptr)
 {
-	mOwner->GetGame()->AddSprite(this);
+	mOwner->GetGame()->GetRenderer()->AddSprite(this);
 }
 
 SpriteComponent::~SpriteComponent()
 {
-	mOwner->GetGame()->RemoveSprite(this);
+	mOwner->GetGame()->GetRenderer()->RemoveSprite(this);
 }
 
-void SpriteComponent::Draw(SDL_Renderer* renderer)
+void SpriteComponent::Draw(Shader* shader)
 {
 	if (mTexture)
 	{
-		//Satellite‚©‚ç‚Ì‘Š‘ÎˆÊ’u‚É•`‰æ
-		SDL_Rect r;
-		r.h = static_cast<int>(mTexHeight * mOwner->GetScale());
-		r.w = static_cast<int>(mTexWidth * mOwner->GetScale());
-		r.x = static_cast<int>((mOwner->GetPosition().x - mOwner->GetGame()->GetSatellite()->GetPosition().x + mOwner->GetGame()->GetScreenSize()->x / 2) - r.w / 2);
-		r.y = static_cast<int>((mOwner->GetPosition().y - mOwner->GetGame()->GetSatellite()->GetPosition().y + mOwner->GetGame()->GetScreenSize()->y / 2) - r.h / 2);
+		Matrix4 scaleMat = Matrix4::CreateScale(
+			static_cast<float>(mTexWidth),
+			static_cast<float>(mTexHeight),
+			1.0f);
+		Matrix4 world = scaleMat * mOwner->GetWorldTransform();
 
-		SDL_RenderCopyEx(renderer,
-			mTexture,
-			nullptr,
-			&r,
-			Math::ToDegrees(Math::Atan( mOwner->GetPosition())),
-			nullptr,
-			SDL_FLIP_NONE);
+		shader->SetMatrixUniform("uWorldTransform", world);
+
+		mTexture->SetActive();
+
+		glDrawElements(
+			GL_TRIANGLES,
+			6,
+			GL_UNSIGNED_INT,
+			nullptr
+		);
 	}
 }
 
-void SpriteComponent::SetTexture(SDL_Texture* tex)
+void SpriteComponent::SetTexture(Texture* tex)
 {
 	mTexture = tex;
-	SDL_QueryTexture(tex, nullptr, nullptr, &mTexWidth, &mTexHeight);
+	mTexWidth = tex->GetWidth();
+	mTexHeight = tex->GetHeight();
 }

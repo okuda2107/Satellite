@@ -3,7 +3,7 @@
 #include "Math.h"
 #include <vector>
 
-//–œ—Lˆø—Í‚ÌŒvZA‹““®À‘•ƒNƒ‰ƒX
+//ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Í‚ÌŒvï¿½Zï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 class GravityComponent : public Component
 {
 public:
@@ -36,8 +36,8 @@ public:
 	Tag GetTag() { return mTag; }
 protected:	
 	float mSpeed;
-	Vector2 mForceDirect;//ˆø—Í‚Ì•ûŒü
-	Vector2 mForward;//i‚Ş•ûŒü
+	Vector2 mForceDirect;//ï¿½ï¿½ï¿½Í‚Ì•ï¿½ï¿½ï¿½
+	Vector2 mForward;//ï¿½iï¿½Ş•ï¿½ï¿½ï¿½
 	float mMass;
 	Tag mTag;
 	int mKey;

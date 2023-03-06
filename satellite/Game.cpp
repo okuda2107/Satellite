@@ -1,44 +1,35 @@
 #include "Game.h"
-#include "Actor.h"
-#include <vector>
+#include <glew.h>
+#include "Texture.h"
+#include "VertexArray.h"
+#include "Shader.h"
 #include <algorithm>
+#include "Actor.h"
 #include "SpriteComponent.h"
-#include "CircleComponent.h"
-#include "StartActor.h"
-#include "Satellite.h"
+#include "Random.h"
+#include "Renderer.h"
 #include "Planet.h"
+#include "Satellite.h"
 
-Game::Game() : mWindow(nullptr), mRenderer(nullptr), mIsRunning(true), mTicksCount(0), mUpdatingActors(false), mSatellite(nullptr), mScreenSize(1024,768), mWorldSize(2048, 1536)
+#include "CircleComponent.h"
+
+Game::Game() : mRenderer(nullptr), mIsRunning(true), mTicksCount(0), mUpdatingActors(false)
 {}
 
 bool Game::Initialize()
 {
-	if (int sdlResult = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 	{
-		SDL_Log("Failed to Initialize the SDL:%s", SDL_GetError());
+		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
-	mWindow = SDL_CreateWindow(
-		"Game Programming in C++",
-		20,
-		20,
-		1024,
-		768,
-		0);
-	if (!mWindow)
-	{
-		SDL_Log("Failed to Create the Window:%s", SDL_GetError());
-		return false;
-	}
-	mRenderer = SDL_CreateRenderer(
-		mWindow,
-		-1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-	);
 
-	if (IMG_Init(IMG_INIT_PNG) == 0)
+	mRenderer = new Renderer(this);
+	if (!mRenderer->Initialize(1024.0f, 768.0f))
 	{
-		SDL_Log("Failed to Initialize the SDL_image:%s", SDL_GetError());
+		SDL_Log("Failed to initialize renderer");
+		delete mRenderer;
+		mRenderer = nullptr;
 		return false;
 	}
 
@@ -100,29 +91,15 @@ void Game::UpdateGame()
 
 void Game::GenerateOutput()
 {
-	SDL_SetRenderDrawColor(
-		mRenderer,
-		79,
-		79,
-		79,
-		255
-	);
-	SDL_RenderClear(mRenderer);
-
-	for (auto sprites : mSprites)
-	{
-		sprites->Draw(mRenderer);
-	}
-
-	SDL_RenderPresent(mRenderer);
+	mRenderer->Draw();
 }
 
 void Game::Shutdown()
 {
-	UnLoadData();
-	IMG_Quit();
-	SDL_DestroyRenderer(mRenderer);
-	SDL_DestroyWindow(mWindow);
+	UnloadData();
+	if (mRenderer) {
+		mRenderer->Shutdown();
+	}
 	SDL_Quit();
 }
 
@@ -211,26 +188,6 @@ void Game::GameEvent()
 	}
 }
 
-void Game::AddSprite(class SpriteComponent* sprite)
-{
-	int myDrawOrder = sprite->GetDrawOrder();
-	auto iter = mSprites.begin();
-	for (; iter != mSprites.end(); ++iter)
-	{
-		if ((*iter)->GetDrawOrder() > myDrawOrder)
-		{
-			break;
-		}
-	}
-	mSprites.insert(iter, sprite);
-}
-
-void Game::RemoveSprite(class SpriteComponent* sprite)
-{
-	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
-	mSprites.erase(iter);
-}
-
 void Game::AddGravity(class GravityComponent* gravity)
 {
 	mGravity.push_back(gravity);
@@ -253,34 +210,6 @@ void Game::RemoveColider(CircleComponent* colision)
 	mColider.erase(iter_collison);
 }
 
-SDL_Texture* Game::GetTexture(const std::string& filename)
-{
-	SDL_Texture* tex = nullptr;
-	auto iter = mTextures.find(filename);
-	if (iter != mTextures.end())
-	{
-		tex = iter->second;
-	}
-	else
-	{
-		SDL_Surface* surf = IMG_Load(filename.c_str());
-		if (!surf)
-		{
-			SDL_Log("Failed to Load Surface:%s", filename.c_str());
-			return nullptr;
-		}
-		tex = SDL_CreateTextureFromSurface(mRenderer, surf);
-		SDL_FreeSurface(surf);
-		if (!tex)
-		{
-			SDL_Log("Failed to Convert Surface into Texture:%s", filename.c_str());
-			return nullptr;
-		}
-		mTextures.emplace(filename, tex);
-	}
-	return tex;
-}
-
 void Game::LoadData()
 {
 	for (int i = 0; i < 10; i++)
@@ -295,20 +224,13 @@ void Game::LoadData()
 
 }
 
-void Game::UnLoadData()
+void Game::UnloadData()
 {
-	while (!mSprites.empty())
-	{
-		delete mSprites.back();
-	}
 	while (!mActors.empty())
 	{
 		delete mActors.back();
 	}
-	for (auto i : mTextures)
-	{
-		SDL_DestroyTexture(i.second);
+	if (mRenderer) {
+		mRenderer->UnloadData();
 	}
-	mTextures.clear();
-	//erase()はメモリの解放はしないが、メモリの内容をnullにする
 }

@@ -3,7 +3,7 @@
 #include "Component.h"
 #include <algorithm>
 
-Actor::Actor(class Game* game) : mGame(game), mPosition(0, 0), mScale(1.0f), mActorGravity(nullptr)
+Actor::Actor(class Game* game) : mGame(game), mPosition(Vector2::Zero), mScale(1.0f), mActorGravity(nullptr)
 {
 	mGame->AddActor(this);
 }
@@ -30,10 +30,18 @@ void Actor::ProcessInput(const uint8_t* keystate)
 	}
 }
 
+void Actor::ActorInput(const uint8_t* keyState)
+{}
+
 void Actor::Update(float deltatime)
 {
-	UpdateComponent(deltatime);
-	UpdateActor(deltatime);
+	if (mState == State::EActive)
+	{
+		ComputeWorldTransform();
+		UpdateComponent(deltatime);
+		UpdateActor(deltatime);
+		ComputeWorldTransform();
+	}
 }
 
 void Actor::UpdateComponent(float deltatime)
@@ -47,7 +55,7 @@ void Actor::UpdateComponent(float deltatime)
 void Actor::UpdateActor(float deltatime)
 {}
 
-//‘å‚«‚¢•û‚©‚ç‡‚É“ü‚Á‚Ä‚¢‚é
+//ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‡ï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 void Actor::AddComponent(class Component* component)
 {
 	int updateOrder = component->GetUpdateOrder();
@@ -68,5 +76,22 @@ void Actor::RemoveComponent(class Component* component)
 	if (iter != mComponents.end())
 	{
 		mComponents.erase(iter);
+	}
+}
+
+void Actor::ComputeWorldTransform()
+{
+	if (mRecomputeWorldTransform)
+	{
+		mRecomputeWorldTransform = false;
+		// scaling, rotation, translation
+		mWorldTransform = Matrix4::CreateScale(mScale);
+		mWorldTransform *= Matrix4::CreateRotationZ(mRotation);
+		mWorldTransform *= Matrix4::CreateTranslation(Vector3(mPosition.x, mPosition.y, 0.0f));
+		for (auto comp : mComponents)
+		{
+			comp->OnUpdateWorldTransform();
+		}
+
 	}
 }

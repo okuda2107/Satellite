@@ -9,5 +9,5 @@ public:
 
 	void SetFlag(bool flag) { mTargetFrag = flag; }
 private:
-	bool mTargetFrag;//ƒ^[ƒQƒbƒgƒtƒ‰ƒO
+	bool mTargetFrag;//ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½tï¿½ï¿½ï¿½O
 };

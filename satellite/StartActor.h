@@ -1,7 +1,7 @@
 #pragma once
 #include "Actor.h"
 
-//ÀÛ‚ÍTransActor‚ğì‚Á‚ÄAƒQ[ƒ€‚ÌƒV[ƒ“‘JˆÚ‚ğÀ‘•
+//ï¿½ï¿½ï¿½Û‚ï¿½TransActorï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½Qï¿½[ï¿½ï¿½ï¿½ÌƒVï¿½[ï¿½ï¿½ï¿½Jï¿½Ú‚ï¿½ï¿½ï¿½ï¿½
 class StartActor : public Actor
 {
 public:

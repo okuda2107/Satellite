@@ -12,6 +12,8 @@ public:
 
 	virtual void Update(float deltatime);
 
+	virtual void OnUpdateWorldTransform() { }
+
 	const int GetUpdateOrder() { return mUpdateOrder; }
 
 	class Actor* GetOwner() { return mOwner; }

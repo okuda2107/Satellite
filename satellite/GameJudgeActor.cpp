@@ -1,7 +1,7 @@
 #include "GameJudgeActor.h"
 #include "ScreenComponent.h"
 #include "Game.h"
-//Planet‚ª€‚ñ‚¾‚ç¶¬
+//Planetï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾‚ç¶ï¿½ï¿½
 GameJudgeActor::GameJudgeActor(class Game* game) : Actor(game)
 {
 	ScreenComponent* sc = new ScreenComponent(this, 200);
