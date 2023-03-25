@@ -190,13 +190,13 @@ void Game::GameEvent()
 
 void Game::AddGravity(class GravityComponent* gravity)
 {
-	mGravity.push_back(gravity);
+	mGravityComponents.push_back(gravity);
 }
 
 void Game::RemoveGravity(class GravityComponent* gravity)
 {
-	auto iter = std::find(mGravity.begin(), mGravity.end(), gravity);
-	mGravity.erase(iter);
+	auto iter = std::find(mGravityComponents.begin(), mGravityComponents.end(), gravity);
+	mGravityComponents.erase(iter);
 }
 
 void Game::AddColider(class CircleComponent* colision)
@@ -212,16 +212,8 @@ void Game::RemoveColider(CircleComponent* colision)
 
 void Game::LoadData()
 {
-	for (int i = 0; i < 10; i++)
-	{
-		Planet* pl = new Planet(this);
-	}
-	
-	Planet* plmax = new Planet(this);
-	plmax->SetFlag(true);
-	
-	mSatellite = new Satellite(this);
-
+	Satellite* satellite = new Satellite(this);
+	Planet* planet = new Planet(this);
 }
 
 void Game::UnloadData()

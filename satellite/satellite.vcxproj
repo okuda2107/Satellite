@@ -22,21 +22,17 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="CircleComponent.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="DrawCircleComponent.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameJudgeActor.cpp" />
     <ClCompile Include="GravityComponent.cpp" />
-    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Satellite.cpp" />
-    <ClCompile Include="ScreenComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
-    <ClCompile Include="StartActor.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexArray.cpp" />
   </ItemGroup>
@@ -44,20 +40,16 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="CircleComponent.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="DrawCircleComponent.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameJudgeActor.h" />
     <ClInclude Include="GravityComponent.h" />
-    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Satellite.h" />
-    <ClInclude Include="ScreenComponent.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpriteComponent.h" />
-    <ClInclude Include="StartActor.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexArray.h" />
   </ItemGroup>
@@ -128,7 +120,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>C:\External\GLEW\lib\win\x86;C:\External\SDL\lib\win\x86;C:\External\SOIL\lib\win\x86;C:\External\FMOD\FMOD Studio API Windows\api\studio\lib\x86;C:\External\FMOD\FMOD Studio API Windows\api\core\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;opengl32.lib;glew32.lib;fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;opengl32.lib;glew32.lib;fmodL_vc.lib;fmodstudioL_vc.lib;SOIL.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

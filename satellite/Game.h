@@ -22,7 +22,7 @@ public:
 	void AddColider(class CircleComponent* colision);
 	void RemoveColider(class CircleComponent* colision);
 
-	std::vector<class GravityComponent*> mGravity;
+	std::vector<class GravityComponent*> mGravityComponents;
 	std::vector<class CircleComponent*>mColider;
 
 	void GameEvent();

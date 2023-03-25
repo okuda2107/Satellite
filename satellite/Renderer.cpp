@@ -34,7 +34,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	mWindow = SDL_CreateWindow(
 		"Game Programming in C++",
 		100,
-		100,
+		10,
 		static_cast<int>(mScreenWidth),
 		static_cast<int>(mScreenHeight),
 		SDL_WINDOW_OPENGL);

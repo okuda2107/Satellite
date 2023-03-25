@@ -1,46 +1,39 @@
 #include "GravityComponent.h"
-#include "Actor.h"
 #include "Game.h"
+#include "Actor.h"
+#include "Planet.h"
 
-GravityComponent::GravityComponent(class Actor* owner, int updateOrder) : Component(owner, updateOrder), mSpeed(0.0f), mMass(0.0f), mKey(0), mTime(0.0f)
+GravityComponent::GravityComponent(class Actor* owner, int updateOrder) :MoveComponent(owner, updateOrder), mTag(Planet), mMass(0.0f)
 {
-	mOwner->GetGame()->mGravity.push_back(this);
-	mOwner->mActorGravity = this;
+	mOwner->GetGame()->AddGravity(this);
 }
 
 GravityComponent::~GravityComponent()
 {
-	auto iter = std::find(mOwner->GetGame()->mGravity.begin(), mOwner->GetGame()->mGravity.end(), this);
-	mOwner->GetGame()->mGravity.erase(iter);
+	mOwner->GetGame()->RemoveGravity(this);
 }
 
 void GravityComponent::Update(float deltatime)
 {
-	Vector2 mForceDirect = ForceDirectCalculate();
-	if (!Math::NearZeroVector(mForceDirect))
-	{
-		Vector2 pos = mOwner->GetPosition();
-		pos += mForceDirect * deltatime;
-
-		mOwner->SetPosition(pos);
-	}
+	if (mTag == Planet) return;
+	Vector2 speed = this->GetSpeed();
+	speed += this->culculateGravity(deltatime);
+	this->SetSpeed(speed);
+	MoveComponent::Update(deltatime);
 }
 
-Vector2 GravityComponent::ForceDirectCalculate()
+Vector2 GravityComponent::culculateGravity(float deltatime)
 {
-	Vector2 ForceDirect;
-	for (auto object : mOwner->GetGame()->mGravity)
+	Vector2 returnVec;
+	
+	for (auto planet : mOwner->GetGame()->mGravityComponents)
 	{
-		if (mTag != object->GetTag())
-		{
-			float temp;
-
-			Vector2 distance = object->GetOwner()->GetPosition() - mOwner->GetPosition();
-
-			temp = (gravity * object->GetMass() * mMass) / distance.Length();
-
-			ForceDirect += Normalize(distance) * temp;
-		}
+		Vector2 direct = planet->GetOwner()->GetPosition() - this->GetOwner()->GetPosition();
+		float distance = direct.LengthSquared();
+		if (Math::NearZero(distance)) continue;
+		direct.Normalize();
+		returnVec = returnVec + ((gravity * planet->mMass * deltatime) / distance) * direct;
 	}
-	return ForceDirect;
+
+	return returnVec;
 }

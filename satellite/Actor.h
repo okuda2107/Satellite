@@ -31,14 +31,14 @@ public:
 	float GetScale() const { return mScale; }
 	State GetState() const { return mState; }
 
-	void SetState(State state) { mState = state; }
-	void SetScale(float scale) { mScale = scale; }
-	void SetPosition(Vector2 pos) { mPosition = pos; }
+	void SetState(State state) { mState = state; mRecomputeWorldTransform = true; }
+	void SetScale(float scale) { mScale = scale; mRecomputeWorldTransform = true; }
+	void SetPosition(Vector2 pos) { mPosition = pos; mRecomputeWorldTransform = true; }
 
 	void ComputeWorldTransform();
 	Matrix4& GetWorldTransform() { return mWorldTransform; }
 
-	class GravityComponent* mActorGravity;
+	class Gravity* mActorGravity;
 private:
 	Game* mGame;
 	Vector2 mPosition;
