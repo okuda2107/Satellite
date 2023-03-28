@@ -5,11 +5,9 @@ class Satellite : public Actor
 {
 public:
 	Satellite(class Game* game);
-	~Satellite();
 
-	void Update(float deltatime);//worldsize�͂����Ŕ���
+	void UpdateActor(float deltatime) override;
 
 private:
-	Vector2 mFirstPos;
-
+	class CircleComponent* mColider;
 };

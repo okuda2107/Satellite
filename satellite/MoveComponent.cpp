@@ -17,6 +17,7 @@ void MoveComponent::Update(float deltatime)
 		else if (pos.x > 512.0f) { pos.x = -510.0f; }
 		if (pos.y < -384.0f) { pos.y = 382.0f; }
 		else if (pos.y > 384.0f) { pos.y = -382.0f; }
+		
 		mOwner->SetPosition(pos);
 	}
 }

@@ -83,8 +83,6 @@ void Game::UpdateGame()
 		deltatime = 0.05f;
 	}
 	mTicksCount = SDL_GetTicks();
-	
-	GameEvent();
 
 	UpdateActors(deltatime);
 }
@@ -163,31 +161,6 @@ void Game::UpdateActors(float deltatime)
 	}
 }
 
-void Game::GameEvent()
-{
-
-
-	for (size_t i = 0;i < mColider.size() - 1;i++) 
-	{
-		for (size_t j = i + 1;j < mColider.size();j++)
-		{
-			if (Intersect(*mColider[i], *mColider[j]))
-			{
-				if (mColider[i]->GetRadius() < mColider[j]->GetRadius()) 
-				{
-					*mColider[j] += *mColider[i];
-					mColider[i]->GetOwner()->SetState(Actor::EDead);
-				}
-				else 
-				{
-					*mColider[i] += *mColider[j];
-					mColider[j]->GetOwner()->SetState(Actor::EDead);
-				}
-			}
-		}
-	}
-}
-
 void Game::AddGravity(class GravityComponent* gravity)
 {
 	mGravityComponents.push_back(gravity);
@@ -201,13 +174,13 @@ void Game::RemoveGravity(class GravityComponent* gravity)
 
 void Game::AddColider(class CircleComponent* colision)
 {
-	mColider.push_back(colision);
+	mColiders.push_back(colision);
 }
 
 void Game::RemoveColider(CircleComponent* colision)
 {
-	auto iter_collison = std::find(mColider.begin(), mColider.end(), colision);
-	mColider.erase(iter_collison);
+	auto iter_collison = std::find(mColiders.begin(), mColiders.end(), colision);
+	mColiders.erase(iter_collison);
 }
 
 void Game::LoadData()

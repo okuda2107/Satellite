@@ -25,6 +25,6 @@ private:
     Tag mTag;
     float mMass;
 
-    static constexpr float gravity = 9806650.f;
+    static constexpr float gravity = 980665.f;
 };
 

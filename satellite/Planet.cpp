@@ -19,6 +19,7 @@ Planet::Planet(class Game* game) : Actor(game), mTargetFrag(false)
 	Texture* tex = GetGame()->GetRenderer()->GetTexture("Assets/ori.png");
 	sc->SetTexture(tex);
 	SetScale(0.2f);
+	cc->SetRadius(100.0f);
 }
 
 Planet::~Planet()

@@ -10,23 +10,20 @@ public:
 	CircleComponent(class Actor* owner);
 	~CircleComponent();
 
-	void SetRadius(struct SDL_Texture* tex, float scale);
-	float GetRadius() const { return  mRadius; };
+	void Update(float deltatime);
 
-	const Vector2& GetCenter() const { return mOwner->GetPosition(); };
+	void SetFlag(bool flag) { mCollision = flag; }
+	void SetRadius(float radius) { mRadius = radius; }
 
-	CircleComponent &operator+=(const CircleComponent& cc)
-	{
-		float rate = mOwner->GetScale() / this->mRadius;
-		this->mRadius += cc.GetRadius();
-		mOwner->SetScale(this->mRadius * rate);
-//		float newMass = this->mOwner->mActorGravity->GetMass() + cc.mOwner->mActorGravity->GetMass();
-//		this->mOwner->mActorGravity->SetMass(newMass);
-		return *this;
-	}
+	bool GetFlag() const { return mCollision; }
+	float GetRadius() const { return  mRadius; }
+	const Vector2& GetCenter() const { return mOwner->GetPosition(); }
+
+	std::vector<class CircleComponent*> mActors;
 
 private:
 	float mRadius;
+	bool mCollision;	
 };
 
 bool Intersect(const CircleComponent& a, const CircleComponent& b);
