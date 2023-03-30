@@ -10,7 +10,7 @@
 #include "Renderer.h"
 #include "Planet.h"
 #include "Satellite.h"
-
+#include "MeshComponent.h"
 #include "CircleComponent.h"
 
 Game::Game() : mRenderer(nullptr), mIsRunning(true), mTicksCount(0), mUpdatingActors(false)
@@ -187,6 +187,9 @@ void Game::LoadData()
 {
 	Satellite* satellite = new Satellite(this);
 	Planet* planet = new Planet(this);
+	Actor* a = new Actor(this);
+	MeshComponent* mc = new MeshComponent(a);
+	mc->SetMesh(mRenderer->GetMesh("Assets/Sphere.gpmesh"));
 }
 
 void Game::UnloadData()
