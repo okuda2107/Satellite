@@ -1,6 +1,8 @@
 #include "Planet.h"
 #include "GravityComponent.h"
 #include "SpriteComponent.h"
+#include "MeshComponent.h"
+#include "Mesh.h"
 #include "Game.h"
 #include "CircleComponent.h"
 #include "Random.h"
@@ -15,10 +17,9 @@ Planet::Planet(class Game* game) : Actor(game), mTargetFrag(false)
 	GravityComponent* grac = new GravityComponent(this);
 	grac->SetTag(grac->Planet);
 	grac->SetMass(2.0f);
-	SpriteComponent* sc = new SpriteComponent(this, 100);
-	Texture* tex = GetGame()->GetRenderer()->GetTexture("Assets/ori.png");
-	sc->SetTexture(tex);
-	SetScale(0.2f);
+	MeshComponent* mc = new MeshComponent(this);
+	mc->SetMesh(GetGame()->GetRenderer()->GetMesh("Assets/Sphere.gpmesh"));
+	SetScale(3.0f);
 	cc->SetRadius(100.0f);
 }
 

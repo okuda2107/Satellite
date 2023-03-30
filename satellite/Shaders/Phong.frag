@@ -49,8 +49,7 @@ void main()
 	if (NdotL > 0)
 	{
 		vec3 Diffuse = uDirLight.mDiffuseColor * NdotL;
-		vec3 Specular = uDirLight.mSpecColor * pow(max(0.0, dot(R, V)), uSpecPower);
-		Phong += Diffuse + Specular;
+		Phong += Diffuse;
 	}
 
 	outColor = texture(uTexture, fragTexCoord) * vec4(Phong, 1.0f);

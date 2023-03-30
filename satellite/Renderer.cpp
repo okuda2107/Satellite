@@ -230,7 +230,7 @@ bool Renderer::LoadShaders()
 
 	mMeshShader->SetActive();
 	// Set the view-projection matrix
-	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
+	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitZ, Vector3::UnitX);
 	mProjection = Matrix4::CreateOrtho(mScreenWidth, mScreenHeight, 25.0f, 10000.0f);
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 	return true;

@@ -142,5 +142,8 @@
     <None Include="Shaders\Phong.vert">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include="Assets\Sphere.gpmesh">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 #include "Actor.h"
 #include "SDL.h"
 #include "SpriteComponent.h"
+#include "Mesh.h"
+#include "MeshComponent.h"
 #include "Game.h"
 #include "CircleComponent.h"
 #include "Planet.h"
@@ -15,13 +17,11 @@ Satellite::Satellite(class Game* game) : Actor(game)
 	GravityComponent* inpc = new GravityComponent(this);
 	inpc->SetTag(inpc->Satellite);
 	inpc->SetMass(1.0f);
-	inpc->SetSpeed(Vector2(.0f, .0f));
-	SetScale(0.1f);
-	SpriteComponent* sc = new SpriteComponent(this, 100);
-	Texture* tex = GetGame()->GetRenderer()->GetTexture("Assets/face.png");
-	sc->SetTexture(tex);
+	inpc->SetSpeed(Vector2(100.0f, .0f));
+	MeshComponent* mc = new MeshComponent(this);
+	mc->SetMesh(GetGame()->GetRenderer()->GetMesh("Assets/Sphere.gpmesh"));
 	SetPosition(Vector2(0.0f, 240.0f));
-	SetScale(0.2f);
+	SetScale(3.0f);
 	mColider = new CircleComponent(this);
 	mColider->SetRadius(100.0f);
 }
