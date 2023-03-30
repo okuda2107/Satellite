@@ -2,9 +2,11 @@
 #include "glew.h"
 #include "Game.h"
 #include "SpriteComponent.h"
+#include "MeshComponent.h"
 #include "Shader.h"
 #include "VertexArray.h"
 #include "Texture.h"
+#include "Mesh.h"
 
 Renderer::Renderer(class Game* game) : mGame(game), mContext(nullptr), mScreenHeight(0.0f), mScreenWidth(0.0f), mSpriteVerts(nullptr), mSpriteShader(nullptr), mWindow(nullptr)
 {}
@@ -87,7 +89,7 @@ void Renderer::UnloadData()
 
 void Renderer::Draw()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glEnable(GL_BLEND);
@@ -132,6 +134,17 @@ void Renderer::RemoveSprite(SpriteComponent* sprite)
 	mSprites.erase(iter);
 }
 
+void Renderer::AddMeshComp(MeshComponent* mesh)
+{
+	mMeshComps.emplace_back(mesh);
+}
+
+void Renderer::RemoveMeshComp(MeshComponent* mesh)
+{
+	auto iter = std::find(mMeshComps.begin(), mMeshComps.end(), mesh);
+	mMeshComps.erase(iter);
+}
+
 Texture* Renderer::GetTexture(const std::string& fileName)
 {
 	Texture* tex = nullptr;
@@ -154,6 +167,30 @@ Texture* Renderer::GetTexture(const std::string& fileName)
 		}
 	}
 	return tex;
+}
+
+Mesh* Renderer::GetMesh(const std::string& fileName)
+{
+	Mesh* m = nullptr;
+	auto iter = mMeshes.find(fileName);
+	if (iter != mMeshes.end())
+	{
+		m = iter->second;
+	}
+	else
+	{
+		m = new Mesh();
+		if (m->Load(fileName, this))
+		{
+			mMeshes.emplace(fileName, m);
+		}
+		else
+		{
+			delete m;
+			m = nullptr;
+		}
+	}
+	return m;
 }
 
 bool Renderer::LoadShaders()
@@ -188,4 +225,21 @@ void Renderer::CreateSpriteVerts()
 	};
 
 	mSpriteVerts = new VertexArray(vertices, 4, indices, 6);
+}
+
+void Renderer::SetLightUniforms(Shader* shader)
+{
+	// Camera position is from inverted view
+	Matrix4 invView = mView;
+	invView.Invert();
+	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
+	// Ambient light
+	shader->SetVectorUniform("uAmbientLight", mAmbientLight);
+	// Directional light
+	shader->SetVectorUniform("uDirLight.mDirection",
+		mDirLight.mDirection);
+	shader->SetVectorUniform("uDirLight.mDiffuseColor",
+		mDirLight.mDiffuseColor);
+	shader->SetVectorUniform("uDirLight.mSpecColor",
+		mDirLight.mSpecColor);
 }
