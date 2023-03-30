@@ -190,6 +190,12 @@ void Game::LoadData()
 	Actor* a = new Actor(this);
 	MeshComponent* mc = new MeshComponent(a);
 	mc->SetMesh(mRenderer->GetMesh("Assets/Sphere.gpmesh"));
+
+	mRenderer->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
+	DirectionalLight& dir = mRenderer->GetDirectionalLight();
+	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
+	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
+	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 }
 
 void Game::UnloadData()
