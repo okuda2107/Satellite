@@ -20,7 +20,7 @@ Planet::Planet(class Game* game) : Actor(game), mTargetFrag(false)
 	MeshComponent* mc = new MeshComponent(this);
 	mc->SetMesh(GetGame()->GetRenderer()->GetMesh("Assets/Sphere.gpmesh"));
 	SetScale(3.0f);
-	cc->SetRadius(100.0f);
+	cc->SetRadius(35.0f);
 }
 
 Planet::~Planet()

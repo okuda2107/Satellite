@@ -23,7 +23,7 @@ Satellite::Satellite(class Game* game) : Actor(game)
 	SetPosition(Vector2(0.0f, 240.0f));
 	SetScale(3.0f);
 	mColider = new CircleComponent(this);
-	mColider->SetRadius(100.0f);
+	mColider->SetRadius(35.0f);
 }
 
 void Satellite::UpdateActor(float deltatime)
